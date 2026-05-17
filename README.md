@@ -246,4 +246,4 @@ MIT
 
 ---
 
-Built for **Atomberg Hackathon 1.0** | May 2025
+Built for **Atomberg Hackathon 1.0** | May 2026
