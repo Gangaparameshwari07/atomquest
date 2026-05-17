@@ -80,7 +80,7 @@ export default function SharedGoalsTab({
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="text-xs font-medium text-slate-600">Thrust Area</label>
-            <select name="thrustAreaId" required className="w-full border border-slate-300 rounded px-3 py-2 text-sm mt-1">
+            <select name="thrustAreaId" required className="w-full text-slate-900 border border-slate-300 rounded px-3 py-2 text-sm mt-1">
               {thrustAreas.map((ta) => (
                 <option key={ta.id} value={ta.id}>{ta.name}</option>
               ))}
@@ -88,7 +88,7 @@ export default function SharedGoalsTab({
           </div>
           <div>
             <label className="text-xs font-medium text-slate-600">UoM Type</label>
-            <select name="uomType" required className="w-full border border-slate-300 rounded px-3 py-2 text-sm mt-1">
+            <select name="uomType" required className="w-full text-slate-900 border border-slate-300 rounded px-3 py-2 text-sm mt-1">
               <option value="NUMERIC_HIGHER_BETTER">Numeric (Higher is Better)</option>
               <option value="NUMERIC_LOWER_BETTER">Numeric (Lower is Better)</option>
               <option value="TIMELINE">Timeline</option>
@@ -99,28 +99,28 @@ export default function SharedGoalsTab({
 
         <div>
           <label className="text-xs font-medium text-slate-600">KPI Title (Read-only for recipients)</label>
-          <input name="title" required placeholder="e.g., Department Q-Sales Target: ₹2Cr" className="w-full border border-slate-300 rounded px-3 py-2 text-sm mt-1" />
+          <input name="title" required placeholder="e.g., Department Q-Sales Target: ₹2Cr" className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-3 py-2 text-sm mt-1" />
         </div>
 
         <div>
           <label className="text-xs font-medium text-slate-600">Description</label>
-          <textarea name="description" rows={2} className="w-full border border-slate-300 rounded px-3 py-2 text-sm mt-1" />
+          <textarea name="description" rows={2} className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-3 py-2 text-sm mt-1" />
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="text-xs font-medium text-slate-600">Target (Read-only for recipients)</label>
-            <input name="target" type="number" required step="any" className="w-full border border-slate-300 rounded px-3 py-2 text-sm mt-1" />
+            <input name="target" type="number" required step="any" className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-3 py-2 text-sm mt-1" />
           </div>
           <div>
             <label className="text-xs font-medium text-slate-600">Default Weightage % (editable per employee)</label>
-            <input name="weightage" type="number" required min={10} max={100} defaultValue={20} className="w-full border border-slate-300 rounded px-3 py-2 text-sm mt-1" />
+            <input name="weightage" type="number" required min={10} max={100} defaultValue={20} className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-3 py-2 text-sm mt-1" />
           </div>
         </div>
 
         <div>
           <label className="text-xs font-medium text-slate-600">Primary Owner (their achievement syncs to others)</label>
-          <select name="primaryOwnerId" required className="w-full border border-slate-300 rounded px-3 py-2 text-sm mt-1">
+          <select name="primaryOwnerId" required className="w-full text-slate-900 border border-slate-300 rounded px-3 py-2 text-sm mt-1">
             {primaryOwnerOptions.map((u) => (
               <option key={u.id} value={u.id}>{u.name} ({u.department})</option>
             ))}

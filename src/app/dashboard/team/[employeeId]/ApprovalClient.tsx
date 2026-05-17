@@ -161,6 +161,19 @@ export default function ApprovalClient({
         </div>
       )}
 
+      {/* Waiting for submission banner */}
+      {!anySubmitted && goals.length > 0 && (
+        <div className="mb-4 p-4 rounded-lg flex items-start gap-3 bg-amber-50 border border-amber-200 text-amber-800">
+          <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-medium">⏳ Waiting for Employee Submission</p>
+            <p className="text-sm mt-1">
+              The employee has draft goals but hasn't submitted them yet. You can review the drafts above, but approval is only possible after submission.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Tabs */}
       <div className="flex gap-1 mb-6 bg-white p-1 border border-slate-200 rounded-lg w-fit">
         <button onClick={() => setActiveTab("goals")} className={`px-4 py-2 rounded-md text-sm font-medium ${activeTab === "goals" ? "bg-blue-600 text-white" : "text-slate-600"}`}>
@@ -205,11 +218,11 @@ export default function ApprovalClient({
                   </div>
                   <div>
                     <label className="text-xs text-slate-500">Target</label>
-                    <input type="number" value={g.target} onChange={(e) => handleEdit(g.id, "target", e.target.value)} disabled={allApproved} className="w-full text-sm border border-slate-200 rounded px-2 py-1 disabled:bg-slate-50" />
+                    <input type="number" value={g.target} onChange={(e) => handleEdit(g.id, "target", e.target.value)} disabled={allApproved} className="w-full text-sm text-slate-900 border border-slate-200 rounded px-2 py-1 disabled:bg-slate-100 disabled:text-slate-700 disabled:opacity-100" />
                   </div>
                   <div>
                     <label className="text-xs text-slate-500">Weightage (%)</label>
-                    <input type="number" value={g.weightage} onChange={(e) => handleEdit(g.id, "weightage", e.target.value)} disabled={allApproved} className="w-full text-sm border border-slate-200 rounded px-2 py-1 disabled:bg-slate-50" />
+                    <input type="number" value={g.weightage} onChange={(e) => handleEdit(g.id, "weightage", e.target.value)} disabled={allApproved} className="w-full text-sm text-slate-900 border border-slate-200 rounded px-2 py-1 disabled:bg-slate-100 disabled:text-slate-700 disabled:opacity-100" />
                   </div>
                 </div>
               </div>
@@ -275,7 +288,7 @@ export default function ApprovalClient({
               onChange={(e) => setComment(e.target.value)}
               rows={3}
               placeholder="Add structured feedback on planned vs actual performance..."
-              className="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 mb-3"
+              className="w-full text-sm text-slate-900 placeholder:text-slate-400 border border-slate-200 rounded-lg px-3 py-2 mb-3"
             />
             <button onClick={() => handleCheckIn(activeTab)} disabled={isPending} className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
               <Send size={16} /> {existingCheckIn(activeTab) ? "Update" : "Save"} {activeTab} Check-in

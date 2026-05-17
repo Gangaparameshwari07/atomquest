@@ -220,8 +220,8 @@ export default function CheckinsClient({
                     onChange={(e) => updateLocal(g.id, "actual", e.target.value)}
                     placeholder="Enter actual"
                     disabled={g.parentGoalId !== null}
-                    className={`w-full text-sm border border-slate-200 rounded px-2 py-1.5 mt-1 ${
-                      g.parentGoalId !== null ? "bg-slate-50 text-slate-500 cursor-not-allowed" : ""
+                    className={`w-full text-sm text-slate-900 placeholder:text-slate-400 border border-slate-200 rounded px-2 py-1.5 mt-1 ${
+                      g.parentGoalId !== null ? "bg-slate-100 text-slate-700 cursor-not-allowed opacity-100" : ""
                     }`}
                   />
                   {g.parentGoalId && (
@@ -236,8 +236,8 @@ export default function CheckinsClient({
                     value={d.status}
                     onChange={(e) => updateLocal(g.id, "status", e.target.value)}
                     disabled={g.parentGoalId !== null}
-                    className={`w-full text-sm border border-slate-200 rounded px-2 py-1.5 mt-1 ${
-                      g.parentGoalId !== null ? "bg-slate-50 text-slate-500 cursor-not-allowed" : ""
+                    className={`w-full text-sm text-slate-900 border border-slate-200 rounded px-2 py-1.5 mt-1 ${
+                      g.parentGoalId !== null ? "bg-slate-100 text-slate-700 cursor-not-allowed opacity-100" : ""
                     }`}
                   >
                     <option value="NOT_STARTED">Not Started</option>

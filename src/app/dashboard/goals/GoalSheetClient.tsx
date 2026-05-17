@@ -135,6 +135,19 @@ export default function GoalSheetClient({
         </div>
       )}
 
+      {/* Locked goals banner */}
+      {allLocked && (
+        <div className="mb-6 p-4 rounded-lg flex items-start gap-3 bg-slate-100 border border-slate-300 text-slate-800">
+          <Lock size={18} className="flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="font-medium">🔒 Your Goal Sheet is Locked</p>
+            <p className="text-sm mt-1">
+              Your goals are approved and locked for this cycle. To make changes, request your Admin/HR to unlock specific goals. New goals can be added in the next cycle.
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="bg-white border border-slate-200 rounded-xl p-5 mb-6">
         <div className="flex justify-between mb-2">
           <span className="text-sm font-medium text-slate-700">
@@ -219,7 +232,7 @@ export default function GoalSheetClient({
                   value={g.target}
                   onChange={(e) => handleUpdate(g.id, "target", e.target.value)}
                   disabled={g.isLocked || g.isShared || (isReadOnly && !g.isShared)}
-                  className="w-full text-sm font-medium border border-slate-200 rounded px-2 py-1 disabled:bg-slate-50 disabled:text-slate-500"
+                  className="w-full text-sm font-medium text-slate-900 border border-slate-200 rounded px-2 py-1 disabled:bg-slate-100 disabled:text-slate-700 disabled:opacity-100"
                 />
                 {g.isShared && <p className="text-[10px] text-purple-600 mt-0.5">Locked by Admin</p>}
               </div>
@@ -232,7 +245,7 @@ export default function GoalSheetClient({
                   value={g.weightage}
                   onChange={(e) => handleUpdate(g.id, "weightage", e.target.value)}
                   disabled={g.isLocked || (isReadOnly && !g.isShared)}
-                  className="w-full text-sm font-medium border border-slate-200 rounded px-2 py-1 disabled:bg-slate-50"
+                  className="w-full text-sm font-medium text-slate-900 border border-slate-200 rounded px-2 py-1 disabled:bg-slate-100 disabled:text-slate-700 disabled:opacity-100"
                 />
                 {g.isShared && <p className="text-[10px] text-purple-600 mt-0.5">You can edit this</p>}
               </div>
@@ -254,7 +267,7 @@ export default function GoalSheetClient({
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-slate-600">Thrust Area</label>
-              <select name="thrustAreaId" required className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm">
+              <select name="thrustAreaId" required className="w-full text-slate-900 border border-slate-300 rounded px-2 py-1.5 text-sm">
                 {thrustAreas.map((ta) => (
                   <option key={ta.id} value={ta.id}>{ta.name}</option>
                 ))}
@@ -262,7 +275,7 @@ export default function GoalSheetClient({
             </div>
             <div>
               <label className="text-xs text-slate-600">UoM Type</label>
-              <select name="uomType" required className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm">
+              <select name="uomType" required className="w-full text-slate-900 border border-slate-300 rounded px-2 py-1.5 text-sm">
                 {Object.entries(UOM_LABELS).map(([k, v]) => (
                   <option key={k} value={k}>{v}</option>
                 ))}
@@ -271,20 +284,20 @@ export default function GoalSheetClient({
           </div>
           <div>
             <label className="text-xs text-slate-600">Goal Title</label>
-            <input name="title" required className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm" placeholder="e.g., Achieve ₹50L sales" />
+            <input name="title" required className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-2 py-1.5 text-sm" placeholder="e.g., Achieve ₹50L sales" />
           </div>
           <div>
             <label className="text-xs text-slate-600">Description (optional)</label>
-            <textarea name="description" rows={2} className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm" />
+            <textarea name="description" rows={2} className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-2 py-1.5 text-sm" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-slate-600">Target</label>
-              <input name="target" type="number" required step="any" className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm" />
+              <input name="target" type="number" required step="any" className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-2 py-1.5 text-sm" />
             </div>
             <div>
               <label className="text-xs text-slate-600">Weightage (%)</label>
-              <input name="weightage" type="number" required min={10} max={100} className="w-full border border-slate-300 rounded px-2 py-1.5 text-sm" />
+              <input name="weightage" type="number" required min={10} max={100} className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-2 py-1.5 text-sm" />
             </div>
           </div>
           <div className="flex gap-2">

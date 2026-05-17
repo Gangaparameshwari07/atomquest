@@ -144,15 +144,15 @@ export default function AdminClient({
           {showNewCycle && (
             <form action={handleNewCycle} className="bg-blue-50 border-2 border-blue-200 rounded-xl p-5 mb-4 space-y-3">
               <h3 className="font-semibold">Create New Cycle</h3>
-              <input name="name" required placeholder="e.g., FY 2026-27" className="w-full border border-slate-300 rounded px-3 py-2 text-sm" />
+              <input name="name" required placeholder="e.g., FY 2026-27" className="w-full text-slate-900 placeholder:text-slate-400 border border-slate-300 rounded px-3 py-2 text-sm" />
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-xs text-slate-600">Start Date</label>
-                  <input name="startDate" type="date" required className="w-full border border-slate-300 rounded px-3 py-2 text-sm" />
+                  <input name="startDate" type="date" required className="w-full text-slate-900 border border-slate-300 rounded px-3 py-2 text-sm" />
                 </div>
                 <div>
                   <label className="text-xs text-slate-600">End Date</label>
-                  <input name="endDate" type="date" required className="w-full border border-slate-300 rounded px-3 py-2 text-sm" />
+                  <input name="endDate" type="date" required className="w-full text-slate-900 border border-slate-300 rounded px-3 py-2 text-sm" />
                 </div>
               </div>
               <button type="submit" disabled={isPending} className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
