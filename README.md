@@ -4,7 +4,7 @@ I built **AtomQuest** for the Atomberg Hackathon 1.0 to solve a real problem: ho
 
 The result is a full-stack application where employees map out their OKRs, managers review and approve them, and admins track everything with an immutable audit trail.
 
-**[Live Demo](https://atomquest.vercel.app)** | **[GitHub](https://github.com/Gangaparameshwari07/atomquest)**
+**[Live Link](https://atomquest-fk8e.vercel.app/)** | **[GitHub](https://github.com/Gangaparameshwari07/atomquest)**
 
 ---
 
