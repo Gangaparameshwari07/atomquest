@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYEE
+  MANAGER
+  ADMIN
+}
+
+enum UoMType {
+  NUMERIC_HIGHER_BETTER
+  NUMERIC_LOWER_BETTER
+  TIMELINE
+  ZERO_BASED
+}
+
+enum GoalStatus {
+  DRAFT
+  SUBMITTED
+  RETURNED
+  APPROVED
+}
+
+enum ProgressStatus {
+  NOT_STARTED
+  ON_TRACK
+  COMPLETED
+}
+
+enum Quarter {
+  Q1
+  Q2
+  Q3
+  Q4
+}
+
+enum CyclePhase {
+  GOAL_SETTING
+  Q1_CHECKIN
+  Q2_CHECKIN
+  Q3_CHECKIN
+  Q4_ANNUAL
+}
+
+model User {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  name       String
+  role       Role     @default(EMPLOYEE)
+  department String   @default("General")
+  managerId  String?
+  manager    User?    @relation("OrgChart", fields: [managerId], references: [id])
+  reportees  User[]   @relation("OrgChart")
+  goals      Goal[]
+  checkIns   CheckIn[]
+  auditLogs  AuditLog[]
+  createdAt  DateTime @default(now())
+}
+
+model Cycle {
+  id        String     @id @default(cuid())
+  name      String
+  phase     CyclePhase @default(GOAL_SETTING)
+  isActive  Boolean    @default(false)
+  startDate DateTime
+  endDate   DateTime
+  goals     Goal[]
+  checkIns  CheckIn[]
+  createdAt DateTime   @default(now())
+}
+
+model ThrustArea {
+  id          String @id @default(cuid())
+  name        String @unique
+  description String?
+  goals       Goal[]
+}
+
+model Goal {
+  id           String         @id @default(cuid())
+  userId       String
+  user         User           @relation(fields: [userId], references: [id])
+  cycleId      String
+  cycle        Cycle          @relation(fields: [cycleId], references: [id])
+  thrustAreaId String
+  thrustArea   ThrustArea     @relation(fields: [thrustAreaId], references: [id])
+  title        String
+  description  String?
+  uomType      UoMType
+  target       Float
+  weightage    Float
+  status       GoalStatus     @default(DRAFT)
+  isLocked     Boolean        @default(false)
+  isShared     Boolean        @default(false)
+  parentGoalId String?
+  achievements Achievement[]
+  checkInItems CheckInItem[]
+  auditLogs    AuditLog[]
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model Achievement {
+  id             String         @id @default(cuid())
+  goalId         String
+  goal           Goal           @relation(fields: [goalId], references: [id])
+  quarter        Quarter
+  actual         Float?
+  completionDate DateTime?
+  progressStatus ProgressStatus @default(NOT_STARTED)
+  score          Float?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@unique([goalId, quarter])
+}
+
+model CheckIn {
+  id         String        @id @default(cuid())
+  managerId  String
+  manager    User          @relation(fields: [managerId], references: [id])
+  employeeId String
+  cycleId    String
+  cycle      Cycle         @relation(fields: [cycleId], references: [id])
+  quarter    Quarter
+  comment    String
+  items      CheckInItem[]
+  createdAt  DateTime      @default(now())
+
+  @@unique([managerId, employeeId, cycleId, quarter])
+}
+
+model CheckInItem {
+  id          String   @id @default(cuid())
+  checkInId   String
+  checkIn     CheckIn  @relation(fields: [checkInId], references: [id])
+  goalId      String
+  goal        Goal     @relation(fields: [goalId], references: [id])
+  managerNote String?
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  goalId    String?
+  goal      Goal?    @relation(fields: [goalId], references: [id])
+  actorId   String
+  actor     User     @relation(fields: [actorId], references: [id])
+  action    String
+  field     String?
+  oldValue  String?
+  newValue  String?
+  timestamp DateTime @default(now())
+}
+
+model EscalationLog {
+  id          String   @id @default(cuid())
+  employeeId  String
+  managerId   String?
+  reason      String
+  level       Int      @default(1)
+  resolved    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
