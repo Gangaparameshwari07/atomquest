@@ -59,10 +59,11 @@ export default function ApprovalClient({
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const anySubmitted = goals.some((g) => g.status === "SUBMITTED");
-  const allSubmitted = anySubmitted; // Allow approval even if some are draft (will only approve submitted ones)
+  const allSubmitted = anySubmitted;
   const allApproved = goals.length > 0 && goals.every((g) => g.status === "APPROVED");
   const submittedGoals = goals.filter((g) => g.status === "SUBMITTED");
-  const total = submittedGoals.reduce((s, g) => s + Number(g.weightage), 0);
+  const total = goals.reduce((s, g) => s + Number(g.weightage), 0); // Total of ALL goals
+  const submittedTotal = submittedGoals.reduce((s, g) => s + Number(g.weightage), 0); // Total of submitted only
 
   function showMsg(t: "success" | "error", text: string) {
     setMessage({ type: t, text });
@@ -74,8 +75,8 @@ export default function ApprovalClient({
   }
 
   async function handleApprove() {
-    if (total !== 100) {
-      showMsg("error", `Weightage must be 100% (now ${total}%)`);
+    if (submittedTotal !== 100) {
+      showMsg("error", `Weightage must be 100% (now ${submittedTotal}%)`);
       return;
     }
     if (submittedGoals.some((g) => Number(g.weightage) < 10)) {

@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/session";
+import { createNotification } from "@/lib/notifications";
 import { revalidatePath } from "next/cache";
 
 export async function createGoal(formData: FormData) {
@@ -131,28 +132,22 @@ export async function submitGoals(cycleId: string) {
       });
     }
 
+    // Notify manager
+    if (goals.length > 0) {
+      const employee = await prisma.user.findUnique({ where: { id: user.id } });
+      if (employee?.managerId) {
+        await createNotification({
+          userId: employee.managerId,
+          type: "GOAL_SUBMITTED",
+          title: `${employee.name} submitted goals`,
+          body: `${goals.length} goal(s) pending your approval`,
+        });
+      }
+    }
+
     revalidatePath("/dashboard/goals");
     return { success: true };
   } catch (e: any) {
     return { success: false, error: e.message };
   }
 }
-
-// Add to top of file:
-import { createNotification } from "@/lib/notifications";
-
-// In submitGoals function, after revalidatePath, add:
-// (Find submitGoals function and add before `return { success: true }`)
-
-  // Notify manager
-  if (goals.length > 0) {
-    const employee = await prisma.user.findUnique({ where: { id: user.id } });
-    if (employee?.managerId) {
-      await createNotification({
-        userId: employee.managerId,
-        type: "GOAL_SUBMITTED",
-        title: `${employee.name} submitted goals`,
-        body: `${goals.length} goal(s) pending your approval`,
-      });
-    }
-  }

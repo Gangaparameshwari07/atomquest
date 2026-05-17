@@ -21,6 +21,7 @@ type Goal = {
   weightage: number;
   thrustArea: { name: string };
   achievements: Achievement[];
+  parentGoalId: string | null;
 };
 
 const QUARTERS = ["Q1", "Q2", "Q3", "Q4"];
@@ -218,15 +219,26 @@ export default function CheckinsClient({
                     value={d.actual}
                     onChange={(e) => updateLocal(g.id, "actual", e.target.value)}
                     placeholder="Enter actual"
-                    className="w-full text-sm border border-slate-200 rounded px-2 py-1.5 mt-1"
+                    disabled={g.parentGoalId !== null}
+                    className={`w-full text-sm border border-slate-200 rounded px-2 py-1.5 mt-1 ${
+                      g.parentGoalId !== null ? "bg-slate-50 text-slate-500 cursor-not-allowed" : ""
+                    }`}
                   />
+                  {g.parentGoalId && (
+                    <p className="text-xs text-slate-500 mt-1">
+                      🔗 Achievement synced from Primary Owner (read-only)
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="text-xs text-slate-500">Status</label>
                   <select
                     value={d.status}
                     onChange={(e) => updateLocal(g.id, "status", e.target.value)}
-                    className="w-full text-sm border border-slate-200 rounded px-2 py-1.5 mt-1"
+                    disabled={g.parentGoalId !== null}
+                    className={`w-full text-sm border border-slate-200 rounded px-2 py-1.5 mt-1 ${
+                      g.parentGoalId !== null ? "bg-slate-50 text-slate-500 cursor-not-allowed" : ""
+                    }`}
                   >
                     <option value="NOT_STARTED">Not Started</option>
                     <option value="ON_TRACK">On Track</option>

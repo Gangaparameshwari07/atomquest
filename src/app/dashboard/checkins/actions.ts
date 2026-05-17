@@ -54,6 +54,39 @@ export async function updateAchievement({
       },
     });
 
+    // Sync to child shared goals if this is a parent
+    if (goal.isShared && !goal.parentGoalId) {
+      const childGoals = await prisma.goal.findMany({
+        where: { parentGoalId: goal.id },
+      });
+      for (const child of childGoals) {
+        await prisma.achievement.upsert({
+          where: {
+            goalId_quarter: {
+              goalId: child.id,
+              // @ts-ignore
+              quarter,
+            },
+          },
+          create: {
+            goalId: child.id,
+            // @ts-ignore
+            quarter,
+            actual,
+            // @ts-ignore
+            progressStatus,
+            score,
+          },
+          update: {
+            actual,
+            // @ts-ignore
+            progressStatus,
+            score,
+          },
+        });
+      }
+    }
+
     revalidatePath("/dashboard/checkins");
     return { success: true };
   } catch (e: any) {
