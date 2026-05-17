@@ -55,7 +55,7 @@ export default function GoalSheetClient({
     startTransition(async () => {
       const result = await createGoal(formData);
       if (result.success && result.goal) {
-        setGoals([...goals, result.goal as Goal]);
+        setGoals([...goals, result.goal as any]);
         setShowForm(false);
         showMessage("success", "Goal added!");
       } else {
